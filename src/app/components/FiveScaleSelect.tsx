@@ -10,11 +10,11 @@ type Props = {
 };
 
 const pastelColors: Record<number, string> = {
-    1: "#fecaca", // red-200
-    2: "#fdba74", // orange-200
-    3: "#fde68a", // yellow-200
-    4: "#bbf7d0", // green-200
-    5: "#bfdbfe", // blue-200
+    1: "#f3bebe",
+    2: "#f4d6c6",
+    3: "#fbf3d1",
+    4: "#d0f3cd",
+    5: "#c9e5ff",
 };
 
 export default function FiveScaleSlider({ label, value, onChange }: Props) {
