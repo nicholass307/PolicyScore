@@ -93,7 +93,7 @@ export default function FiveScaleSelect({ label, value, onChange }: Props) {
                 </label>
                 <button
                     onClick={() => setShowGuide(true)}
-                    className="text-gray-400 hover:text-black text-sm"
+                    className="w-6 h-6 flex items-center justify-center rounded-full border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-black transition"
                     type="button"
                 >
                     ?
