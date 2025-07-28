@@ -69,11 +69,11 @@ export default function FiveScaleSelect({ label, value, onChange }: Props) {
             return {
                 title: "수혜 학년 형평성",
                 descriptions: [
-                    "전혀 그렇지 않다",
-                    "그렇지 않다",
-                    "보통이다",
-                    "그렇다",
-                    "매우 그렇다"
+                    "학년 단위가 아닌 소수의 학생",
+                    " 1개 학년 대상",
+                    "2개 학년 대상",
+                    "3개 학년 대상",
+                    "학교 전체의 참여 기대(필수 참여 등)"
                 ]
             };
         }
