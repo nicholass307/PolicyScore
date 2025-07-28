@@ -1,7 +1,8 @@
 "use client";
 
 import * as Slider from "@radix-ui/react-slider";
-import { useId } from "react";
+import { useId, useState } from "react";
+import PopupGuide from "./PopupGuide";
 
 type Props = {
     label: string;
@@ -33,20 +34,71 @@ const interpolateColor = (val: number) => {
     return `rgb(${r}, ${g}, ${b})`;
 };
 
-export default function FiveScaleSlider({ label, value, onChange }: Props) {
+export default function FiveScaleSelect({ label, value, onChange }: Props) {
     const id = useId();
-
     const color = interpolateColor(value);
     const fillWidth = `${((value - 1) / 4) * 100}%`;
+    const [showGuide, setShowGuide] = useState(false);
+
+    const getPopupContent = () => {
+        if (label === "학교측 승인률") {
+            return {
+                title: "학교측 승인률",
+                descriptions: [
+                    "미협의",
+                    "학생부와 초기 논의 시작",
+                    "학생부 승인",
+                    "담당 부서 또는 학년부(부장 교사) 승인",
+                    "교장/교감 선생님 승인"
+                ]
+            };
+        }
+        if (label === "공약 기획 충실도") {
+            return {
+                title: "공약 기획 충실도",
+                descriptions: [
+                    "공약에 대한 기획안이 없거나 100자 미만인 경우.",
+                    "100자 이상 기획안에 실행 방법 또는 기대 효과 중 하나 포함.",
+                    "200자 이상 기획안에 실행 방법과 기대 효과 포함.",
+                    "300자 이상 기획안에 실행 방법, 기대 효과, 협의 여부 또는 예산 계획 포함.",
+                    "400자 이상 기획안에 실행 방법, 기대 효과, 협의 여부, 예산 계획 모두 구체적으로 포함."
+                ]
+            };
+        }
+        if (label === "수혜 학년 형평성") {
+            return {
+                title: "수혜 학년 형평성",
+                descriptions: [
+                    "전혀 그렇지 않다",
+                    "그렇지 않다",
+                    "보통이다",
+                    "그렇다",
+                    "매우 그렇다"
+                ]
+            };
+        }
+        return {
+            title: label,
+            descriptions: ["", "", "", "", ""],
+        };
+    };
+
+    const popup = getPopupContent();
 
     return (
-        <div className="w-full mb-6">
-            <label
-                htmlFor={id}
-                className="block text-sm font-medium text-[var(--text-primary)] mb-2"
-            >
-                {label}
-            </label>
+        <div className="w-full mb-6 relative">
+            <div className="flex justify-between items-center mb-2">
+                <label htmlFor={id} className="text-sm font-medium text-[var(--text-primary)]">
+                    {label}
+                </label>
+                <button
+                    onClick={() => setShowGuide(true)}
+                    className="text-gray-400 hover:text-black text-sm"
+                    type="button"
+                >
+                    ?
+                </button>
+            </div>
 
             <Slider.Root
                 id={id}
@@ -55,14 +107,9 @@ export default function FiveScaleSlider({ label, value, onChange }: Props) {
                 max={5}
                 step={0.01}
                 value={[value]}
-                onValueChange={(val) => {
-                    onChange(val[0]);
-                }}
-                onValueCommit={(val) => {
-                    onChange(Math.round(val[0]));
-                }}
+                onValueChange={(val) => onChange(val[0])}
+                onValueCommit={(val) => onChange(Math.round(val[0]))}
             >
-
                 <Slider.Track className="bg-gray-200 relative grow rounded-full h-2 overflow-hidden">
                     <Slider.Range
                         className="absolute h-full rounded-full"
@@ -86,6 +133,14 @@ export default function FiveScaleSlider({ label, value, onChange }: Props) {
                 <span></span>
                 <span>긍정적</span>
             </div>
+
+            {showGuide && (
+                <PopupGuide
+                    title={popup.title}
+                    descriptions={popup.descriptions}
+                    onClose={() => setShowGuide(false)}
+                />
+            )}
         </div>
     );
 }
