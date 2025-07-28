@@ -22,7 +22,7 @@ export default function ShinyButton() {
     };
 
     const handleClick = () => {
-        router.push("/pledge/new");
+        router.push("/pledge_form");
     };
 
     return (
