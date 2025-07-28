@@ -1,9 +1,11 @@
 "use client";
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ShinyButton() {
     const shineRef = useRef<HTMLSpanElement>(null);
     const [animClass, setAnimClass] = useState("");
+    const router = useRouter();
 
     const handleMouseEnter = () => {
         if (!shineRef.current) return;
@@ -19,18 +21,22 @@ export default function ShinyButton() {
         setAnimClass("shine-exit");
     };
 
+    const handleClick = () => {
+        router.push("/pledge/new");
+    };
+
     return (
-        <a
-            href="#"
-            className="relative overflow-hidden group inline-block min-w-[150px] cursor-pointer rounded-lg h-14 px-8 text-white text-lg font-bold tracking-wide transition-transform duration-300 ease-in-out transform hover:scale-105"
-            style={{ backgroundColor: "#308ce8" }}
+        <button
+            onClick={handleClick}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            className="relative overflow-hidden group inline-block min-w-[150px] cursor-pointer rounded-lg h-14 px-8 text-white text-lg font-bold tracking-wide transition-transform duration-300 ease-in-out transform hover:scale-105"
+            style={{ backgroundColor: "#308ce8" }}
         >
       <span className="flex items-center justify-center h-full z-10 relative">
         시작하기
       </span>
             <span ref={shineRef} className={`shine-mask ${animClass}`} />
-        </a>
+        </button>
     );
 }
