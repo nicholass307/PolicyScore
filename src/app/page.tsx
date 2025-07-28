@@ -1,4 +1,5 @@
 import HeroSection from "./components/HeroSection";
+import ShinyButton from "@/app/components/ShinyButton";
 
 export default function Home() {
   return (
@@ -11,13 +12,7 @@ export default function Home() {
               학생회 공약 이행 현황을 투명하게 추적하고, 여러분의 목소리가 학교에 전달되는 과정을 직접 확인하세요. 더 나은 캠퍼스를 위한 여정에 함께해주세요.
             </p>
 
-            <a
-                href="#"
-                className="inline-block min-w-[150px] cursor-pointer rounded-lg h-14 px-8 text-white text-lg font-bold tracking-wide transition-transform duration-300 ease-in-out transform hover:scale-105"
-                style={{ backgroundColor: "#308ce8" }}
-            >
-              <span className="flex items-center justify-center h-full">시작하기</span>
-            </a>
+            <ShinyButton/>
           </div>
         </main>
       </div>

@@ -13,3 +13,57 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes shine-in {
+  0% {
+    left: -100%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    left: 30%;
+    opacity: 1;
+  }
+}
+
+@keyframes shine-out {
+  0% {
+    left: 30%;
+    opacity: 1;
+  }
+  100% {
+    left: 130%;
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  .shine-mask {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+            to right,
+            #308ce8 0%,
+            rgba(255, 255, 255, 0.4) 50%,
+            #308ce8 100%
+    );
+    transform: skewX(-25deg);
+    pointer-events: none;
+  }
+
+
+
+  .shine-enter {
+    animation: shine-in 0.4s ease-out forwards;
+  }
+
+  .shine-exit {
+    animation: shine-out 0.3s ease-in forwards;
+  }
+}
