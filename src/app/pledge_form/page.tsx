@@ -1,13 +1,13 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import FiveScaleSelect from "../components/FiveScaleSelect";
 
 export default function PledgeFormPage() {
-    const [approvalRate, setApprovalRate] = useState("");
-    const [planningIntegrity, setPlanningIntegrity] = useState("");
-    const [gradeEquity, setGradeEquity] = useState("");
-    const [totalBudget, setTotalBudget] = useState("");
-    const [requiredBudget, setRequiredBudget] = useState("");
+    const [approvalRate, setApprovalRate] = useState<number>(3);
+    const [planningIntegrity, setPlanningIntegrity] = useState<number>(3);
+    const [gradeEquity, setGradeEquity] = useState<number>(3);
+    const [totalBudget, setTotalBudget] = useState<string>("");
+    const [requiredBudget, setRequiredBudget] = useState<string>("");
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -25,35 +25,65 @@ export default function PledgeFormPage() {
         <main className="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
             <div className="w-full max-w-2xl bg-white p-8 rounded-xl shadow-lg space-y-8">
                 <div>
-                    <h2 className="text-center text-3xl font-extrabold text-[var(--text-primary)]">공약 평가 입력</h2>
+                    <h2 className="text-center text-3xl font-extrabold text-[var(--text-primary)]">
+                        공약 평가 입력
+                    </h2>
                     <p className="mt-2 text-center text-sm text-[var(--text-secondary)]">
                         5점 척도 및 예산 정보를 입력해주세요.
                     </p>
                 </div>
                 <form className="space-y-6" onSubmit={handleSubmit}>
-                    <FiveScaleSelect label="학교측 승인률" value={approvalRate} onChange={setApprovalRate} />
-                    <FiveScaleSelect label="공약 기획 충실도" value={planningIntegrity} onChange={setPlanningIntegrity} />
-                    <FiveScaleSelect label="수혜 학년 형평성" value={gradeEquity} onChange={setGradeEquity} />
+                    <FiveScaleSelect
+                        label="학교측 승인률"
+                        value={approvalRate}
+                        onChange={setApprovalRate}
+                    />
+                    <FiveScaleSelect
+                        label="공약 기획 충실도"
+                        value={planningIntegrity}
+                        onChange={setPlanningIntegrity}
+                    />
+                    <FiveScaleSelect
+                        label="수혜 학년 형평성"
+                        value={gradeEquity}
+                        onChange={setGradeEquity}
+                    />
 
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-primary)]">전체 예산 (만원 단위)</label>
+                        <label className="block text-sm font-medium text-[var(--text-primary)]">
+                            전체 예산 (만 원)
+                        </label>
                         <input
                             type="number"
+                            min={0}
                             className="form-input-custom h-12 px-4"
                             value={totalBudget}
-                            onChange={(e) => setTotalBudget(e.target.value)}
-                            placeholder="예: 3000"
+                            onChange={(e) => {
+                                const val = Number(e.target.value);
+                                if (val >= 0 || e.target.value === "") {
+                                    setTotalBudget(e.target.value);
+                                }
+                            }}
+                            placeholder="예: 300"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-primary)]">공약 이행 필요 예산 (만원 단위)</label>
+                        <label className="block text-sm font-medium text-[var(--text-primary)]">
+                            공약 이행 필요 예산 (만 원)
+                        </label>
                         <input
                             type="number"
+                            min={0}
                             className="form-input-custom h-12 px-4"
                             value={requiredBudget}
-                            onChange={(e) => setRequiredBudget(e.target.value)}
-                            placeholder="예: 1200"
+                            onChange={(e) => {
+                                const val = Number(e.target.value);
+                                if (val >= 0 || e.target.value === "") {
+                                    setRequiredBudget(e.target.value);
+                                }
+                            }}
+                            placeholder="예: 120"
                         />
                     </div>
 
