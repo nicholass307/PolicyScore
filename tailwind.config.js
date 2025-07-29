@@ -6,7 +6,11 @@ module.exports = {
   ],
   darkMode: false,
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Pretendard", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };

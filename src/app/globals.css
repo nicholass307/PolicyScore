@@ -1,4 +1,6 @@
+@import "pretendard/dist/web/static/pretendard.css";
 @import "tailwindcss";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -79,6 +81,11 @@ body {
 .form-input-custom {
   @apply w-full rounded-md border border-[var(--border-color)] bg-[var(--input-background)] text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] focus:border-[var(--input-focus-border)] focus:ring-[var(--input-focus-border)] transition duration-150 ease-in-out;
 }
+
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+}
+
 
 input[type="range"] {
   -webkit-appearance: none;

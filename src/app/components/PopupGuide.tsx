@@ -53,12 +53,12 @@ export default function PopupGuide({ title, descriptions, onClose }: PopupGuideP
                                 {levels.map((item, idx) => (
                                     <div key={item.level} className="flex items-start">
                                         <div className="flex-shrink-0 w-12 text-center">
-                      <span
-                          className="inline-flex items-center justify-center w-8 h-8 rounded-full font-bold"
-                          style={{ backgroundColor: item.bg, color: item.text }}
-                      >
+                        <span
+                            className="inline-flex items-center justify-center w-8 h-8 rounded-full font-bold"
+                            style={{ backgroundColor: item.bg, color: item.text }}
+                        >
                         {item.level}
-                      </span>
+                        </span>
                                         </div>
                                         <div className="ml-3">
                                             <h3 className="font-semibold text-gray-800">{item.label}</h3>
