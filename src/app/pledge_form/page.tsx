@@ -1,8 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import FiveScaleSelect from "../components/FiveScaleSelect";
+import { useRouter } from "next/navigation";
 
 export default function PledgeFormPage() {
+    const router = useRouter();
+
     const [pledgeName, setPledgeName] = useState<string>("");
     const [pledgeDescription, setPledgeDescription] = useState<string>("");
 
@@ -26,7 +29,7 @@ export default function PledgeFormPage() {
         return 5;
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const total = Number(totalBudget);
@@ -44,7 +47,26 @@ export default function PledgeFormPage() {
             requiredBudget: required,
             budgetScore,
         };
-        console.log("제출된 평가 입력값:", data);
+
+        try {
+            const res = await fetch("/api/policy", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+
+            const resultData = await res.json();
+
+            console.log("서버에서 받은 응답:", resultData);
+
+            const content = resultData.choices?.[0]?.message?.content || "";
+
+            localStorage.setItem("policy_result", content);
+
+            router.push("/result");
+        } catch (error) {
+            console.error("API 호출 오류:", error);
+        }
     };
 
     return (
@@ -152,7 +174,7 @@ export default function PledgeFormPage() {
                             type="submit"
                             className="w-full flex justify-center py-3 px-4 rounded-md text-sm font-medium text-white bg-[#0c7ff2] hover:bg-[#0a6fce] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0c7ff2] transition-all duration-300"
                         >
-                            저장하기
+                            평가 요청
                         </button>
                     </div>
                 </form>

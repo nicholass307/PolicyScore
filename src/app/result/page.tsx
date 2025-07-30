@@ -1,13 +1,38 @@
+"use client";
+import { useEffect, useState } from "react";
 import SlotPercentage from "@/app/components/SlotPercentage";
 
+function parseOpenAIResult(content: string) {
+    const scoreMatch = content.match(/총점:\s*(\d+\.?\d*)점/);
+    const totalScore = scoreMatch ? Number(scoreMatch[1]) : 0;
+
+    const kpiMatches = [...content.matchAll(/- (.+?):\s*(\d+)점 → (.+)/g)];
+    const kpis = kpiMatches.map((m) => ({
+        name: m[1],
+        reason: m[3],
+    }));
+
+    const opinionMatch = content.match(/추가 의견:\s*([\s\S]*)/);
+    const overallOpinion = opinionMatch ? opinionMatch[1].trim() : "";
+
+    return { totalScore, kpis, overallOpinion };
+}
+
 export default function ResultPage() {
-    const kpis = [
-        { name: "학업 지원", reason: "튜터링 프로그램 학생 참여율 증가." },
-        { name: "캠퍼스 생활 개선", reason: "새로운 휴게 공간 성공적 조성." },
-        { name: "진로 개발", reason: "진로 워크숍 및 채용 박람회 높은 참석률." },
-        { name: "학생 복지", reason: "정신 건강 지원 프로그램에 대한 긍정적 피드백." },
-        { name: "소통 및 투명성", reason: "정기적인 업데이트 및 학생회와의 공개 포럼 개최." },
-    ];
+    const [totalScore, setTotalScore] = useState(0);
+    const [kpis, setKpis] = useState<{ name: string; reason: string }[]>([]);
+    const [overallOpinion, setOverallOpinion] = useState("");
+
+    useEffect(() => {
+        const rawResult = localStorage.getItem("policy_result");
+
+        if (rawResult) {
+            const { totalScore, kpis, overallOpinion } = parseOpenAIResult(rawResult);
+            setTotalScore(totalScore);
+            setKpis(kpis);
+            setOverallOpinion(overallOpinion);
+        }
+    }, []);
 
     return (
         <div className="flex min-h-screen flex-col bg-slate-50">
@@ -22,13 +47,13 @@ export default function ResultPage() {
                         </p>
                     </div>
 
-                    <SlotPercentage finalValue={Math.floor(Math.random() * 101)} />
+                    <SlotPercentage finalValue={Math.round(totalScore)} />
 
-                    <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div className="bg-white rounded-xl shadow-lg overflow-hidden mt-6">
                         <div className="p-6">
                             <h3 className="text-xl font-bold text-slate-800">주요 성과 지표 (KPI)</h3>
                             <p className="mt-1 text-sm text-slate-500">
-                                각 지표별 이행률 보완 사유입니다.
+                                각 지표별 평가 내용입니다.
                             </p>
                         </div>
                         <div className="overflow-x-auto">
@@ -39,7 +64,7 @@ export default function ResultPage() {
                                         KPI 지표
                                     </th>
                                     <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                                        보완 사유
+                                        평가 내용
                                     </th>
                                 </tr>
                                 </thead>
@@ -58,6 +83,13 @@ export default function ResultPage() {
                             </table>
                         </div>
                     </div>
+
+                    {overallOpinion && (
+                        <div className="bg-white rounded-xl shadow-lg mt-6 p-6">
+                            <h3 className="text-xl font-bold text-slate-800">총평</h3>
+                            <p className="mt-2 text-slate-700 whitespace-pre-line">{overallOpinion}</p>
+                        </div>
+                    )}
                 </div>
             </main>
         </div>
