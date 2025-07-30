@@ -77,6 +77,18 @@ export default function FiveScaleSelect({ label, value, onChange }: Props) {
                 ]
             };
         }
+        if (label === "자원 준비도") {
+            return {
+                title: "자원 준비도",
+                descriptions: [
+                    "학년 단위가 아닌 소수의 학생",
+                    " 1개 학년 대상",
+                    "2개 학년 대상",
+                    "3개 학년 대상",
+                    "학교 전체의 참여 기대(필수 참여 등)"
+                ]
+            };
+        }
         return {
             title: label,
             descriptions: ["", "", "", "", ""],
