@@ -6,10 +6,9 @@ export default function HeroSection() {
                 alt="학생회 이미지"
                 className="absolute inset-0 w-full h-full object-cover"
             />
-
             <div className="absolute inset-0 bg-black/40 flex flex-col justify-end items-center p-8">
-                <h1 className="text-4xl md:text-5xl font-extrabold text-white leading-tight drop-shadow-md">
-                    학생의 힘으로, 약속을 현실로
+                <h1 className="text-4xl md:text-5xl font-extrabold text-white leading-tight drop-shadow-md whitespace-nowrap">
+                    말뿐인 약속이 아닌, 실현 가능한 공약을 위해
                 </h1>
             </div>
         </div>
