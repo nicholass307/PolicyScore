@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_KR, Public_Sans } from "next/font/google";
 import "./globals.css";
+import Footer from "@/app/components/Footer";
 
 const notoSansKr = Noto_Sans_KR({
     subsets: ["latin"],
@@ -22,7 +23,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="ko" className={`${notoSansKr.variable} ${publicSans.variable}`}>
-        <body className="bg-gray-50 text-gray-800 font-sans">{children}</body>
+        <body className="bg-gray-50 text-gray-800 font-sans">
+        {children}
+        <Footer/>
+        </body>
+
         </html>
     );
 }
