@@ -119,7 +119,7 @@ export default function Footer() {
 
                 <div className="mt-12 border-t border-gray-200 pt-8">
                     <p className="text-center text-sm text-gray-500">
-                        © 2024 제 13대 학생회  &quot;새솔&quot;.  All rights reserved.
+                        © 2024 제 13대 학생회  &#39;새솔&#39;.  All rights reserved.
                     </p>
                 </div>
             </div>
