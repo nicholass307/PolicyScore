@@ -2,35 +2,53 @@
 import { useEffect, useState } from "react";
 import SlotPercentage from "@/app/components/SlotPercentage";
 
-function parseOpenAIResult(content: string) {
-    const scoreMatch = content.match(/총점:\s*(\d+\.?\d*)점/);
-    const totalScore = scoreMatch ? Number(scoreMatch[1]) : 0;
-
-    const kpiMatches = [...content.matchAll(/- (.+?):\s*(\d+)점 → (.+)/g)];
-    const kpis = kpiMatches.map((m) => ({
-        name: m[1],
-        reason: m[3],
-    }));
-
-    const opinionMatch = content.match(/추가 의견:\s*([\s\S]*)/);
-    const overallOpinion = opinionMatch ? opinionMatch[1].trim() : "";
-
-    return { totalScore, kpis, overallOpinion };
-}
+const KPI_LABELS: Record<string, string> = {
+    participation: "재참여 의향",
+    satisfaction: "만족도",
+    feasibility: "일정 타당성",
+    accessibility: "정보 접근성",
+};
 
 export default function ResultPage() {
     const [totalScore, setTotalScore] = useState(0);
-    const [kpis, setKpis] = useState<{ name: string; reason: string }[]>([]);
+    const [kpis, setKpis] = useState<
+        { name: string; score?: number; reason: string; recommendation: string }[]
+    >([]);
     const [overallOpinion, setOverallOpinion] = useState("");
 
     useEffect(() => {
         const rawResult = localStorage.getItem("policy_result");
 
         if (rawResult) {
-            const { totalScore, kpis, overallOpinion } = parseOpenAIResult(rawResult);
-            setTotalScore(totalScore);
-            setKpis(kpis);
-            setOverallOpinion(overallOpinion);
+            try {
+                const parsed = JSON.parse(rawResult);
+
+                setTotalScore(Math.round(parsed.final_score || 0));
+
+                const kpiItems: {
+                    name: string;
+                    score?: number;
+                    reason: string;
+                    recommendation: string;
+                }[] = [];
+
+                const feedback = parsed.feedback || {};
+                const scores = parsed.predicted_kpis_by_GPT || {};
+
+                for (const key of Object.keys(KPI_LABELS)) {
+                    const label = KPI_LABELS[key] || key;
+                    const reason = feedback[key]?.reason || "";
+                    const recommendation = feedback[key]?.recommendation || "";
+                    const score = scores[key];
+
+                    kpiItems.push({ name: label, reason, recommendation, score });
+                }
+
+                setKpis(kpiItems);
+                setOverallOpinion(parsed.overall_review || "");
+            } catch (error) {
+                console.error("결과 JSON 파싱 오류:", error);
+            }
         }
     }, []);
 
@@ -47,13 +65,15 @@ export default function ResultPage() {
                         </p>
                     </div>
 
-                    <SlotPercentage finalValue={Math.round(totalScore)} />
+                    <SlotPercentage finalValue={totalScore} />
 
                     <div className="bg-white rounded-xl shadow-lg overflow-hidden mt-6">
                         <div className="p-6">
-                            <h3 className="text-xl font-bold text-slate-800">주요 성과 지표 (KPI)</h3>
+                            <h3 className="text-xl font-bold text-slate-800">
+                                주요 성과 지표 (KPI)
+                            </h3>
                             <p className="mt-1 text-sm text-slate-500">
-                                각 지표별 평가 내용입니다.
+                                각 지표별 점수, 평가 내용 및 개선 추천입니다.
                             </p>
                         </div>
                         <div className="overflow-x-auto">
@@ -64,7 +84,10 @@ export default function ResultPage() {
                                         KPI 지표
                                     </th>
                                     <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                                        평가 내용
+                                        점수
+                                    </th>
+                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                                        평가 및 추천
                                     </th>
                                 </tr>
                                 </thead>
@@ -75,7 +98,10 @@ export default function ResultPage() {
                                             {kpi.name}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
-                                            {kpi.reason}
+                                            {kpi.score ?? "-"}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-pre-line text-sm text-slate-600">
+                                            {`${kpi.reason}\n${kpi.recommendation}`}
                                         </td>
                                     </tr>
                                 ))}
@@ -87,7 +113,9 @@ export default function ResultPage() {
                     {overallOpinion && (
                         <div className="bg-white rounded-xl shadow-lg mt-6 p-6">
                             <h3 className="text-xl font-bold text-slate-800">총평</h3>
-                            <p className="mt-2 text-slate-700 whitespace-pre-line">{overallOpinion}</p>
+                            <p className="mt-2 text-slate-700 whitespace-pre-line">
+                                {overallOpinion}
+                            </p>
                         </div>
                     )}
                 </div>
