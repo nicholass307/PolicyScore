@@ -33,14 +33,14 @@ export default function Footer() {
                                 <ul className="mt-4 space-y-2 text-sm">
                                     <li>
                                         <a className="text-gray-600 hover:text-blue-600" href="/intro">
-                                            학생회 소개
+                                            학생회 소개 페이지
                                         </a>
                                     </li>
                                     <li>
-                                    <span className="text-gray-600">회장: 손채원</span>
+                                    <span className="text-gray-600">전교 회장: 손채원</span>
                                     </li>
                                     <li>
-                                        <span className="text-gray-600">부회장: 박주영, 박민찬</span>
+                                        <span className="text-gray-600">전교 부회장: 박주영, 박민찬</span>
                                     </li>
                                 </ul>
                             </div>
