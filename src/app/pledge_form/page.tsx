@@ -52,7 +52,7 @@ export default function PledgeFormPage() {
             const res = await fetch("/api/policy", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
+                // body: JSON.stringify(data),
             });
 
             if (!res.ok) {
