@@ -120,7 +120,7 @@ export default function ResultPage() {
                     )}
                 </div>
                 <div className="flex justify-center mt-6">
-                    <ResetButton />
+                    <ResetButton/>
                 </div>
             </main>
         </div>
