@@ -178,6 +178,52 @@ export default function Footer() {
                                     </li>
                                 </ul>
                             </div>
+
+                            <div>
+                                <h4 className="text-l font-semibold uppercase tracking-wider text-gray-900">
+                                    자료 제공
+                                </h4>
+                                <ul className="mt-4 space-y-2 text-sm">
+                                    <div className="flex items-center">
+                                        <a
+                                            href="https://bangok.sjeduhs.kr/"
+                                            target="_blank"
+                                            rel="noopener noreferrer">
+                                            <img
+                                                className="max-h-15 w-auto object-contain"
+                                                src="/images/logo_bangok.png"
+                                                alt="반곡고등학교 로고"
+                                            />
+                                        </a>
+                                    </div>
+
+                                    <div className="flex items-center">
+                                        <a
+                                            href="https://saerom.sjeduhs.kr"
+                                            target="_blank"
+                                            rel="noopener noreferrer">
+                                            <img
+                                                className="max-h-15 w-auto object-contain"
+                                                src="/images/logo_saerom.png"
+                                                alt="새롬고등학교 로고"
+                                            />
+                                        </a>
+                                    </div>
+
+                                    <div className="flex items-center">
+                                        <a
+                                            href="https://sejong.sjeduhs.kr"
+                                            target="_blank"
+                                            rel="noopener noreferrer">
+                                            <img
+                                                className="max-h-15 w-auto object-contain"
+                                                src="/images/logo_sejong.png"
+                                                alt="세종고등학교 로고"
+                                            />
+                                        </a>
+                                    </div>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
