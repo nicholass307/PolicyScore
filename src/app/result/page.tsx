@@ -119,10 +119,8 @@ export default function ResultPage() {
                         </div>
                     )}
                 </div>
-            </main>
-            <div>
                 <ResetButton/>
-            </div>
+            </main>
         </div>
     );
 }
