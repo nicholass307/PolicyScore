@@ -23,6 +23,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="ko" className={`${notoSansKr.variable} ${publicSans.variable}`}>
+        <head>
+            <link
+                rel="stylesheet"
+                href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+            />
+        </head>
         <body className="bg-gray-50 text-gray-800 font-sans">
         {children}
         <Footer/>
