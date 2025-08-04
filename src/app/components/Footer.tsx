@@ -190,7 +190,7 @@ export default function Footer() {
                                             target="_blank"
                                             rel="noopener noreferrer">
                                             <img
-                                                className="max-h-15 w-auto object-contain"
+                                                className="max-h-7 w-auto object-contain"
                                                 src="/images/logo_bangok.png"
                                                 alt="반곡고등학교 로고"
                                             />
@@ -203,7 +203,7 @@ export default function Footer() {
                                             target="_blank"
                                             rel="noopener noreferrer">
                                             <img
-                                                className="max-h-15 w-auto object-contain"
+                                                className="max-h-7 w-auto object-contain"
                                                 src="/images/logo_saerom.png"
                                                 alt="새롬고등학교 로고"
                                             />
@@ -216,7 +216,7 @@ export default function Footer() {
                                             target="_blank"
                                             rel="noopener noreferrer">
                                             <img
-                                                className="max-h-15 w-auto object-contain"
+                                                className="max-h-7 w-auto object-contain"
                                                 src="/images/logo_sejong.png"
                                                 alt="세종고등학교 로고"
                                             />

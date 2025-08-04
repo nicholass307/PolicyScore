@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import SlotPercentage from "@/app/components/SlotPercentage";
-
+import ResetButton from "@/app/components/ResetButton";
 const KPI_LABELS: Record<string, string> = {
     participation: "재참여 의향",
     satisfaction: "만족도",
@@ -120,6 +120,9 @@ export default function ResultPage() {
                     )}
                 </div>
             </main>
+            <div>
+                <ResetButton/>
+            </div>
         </div>
     );
 }
