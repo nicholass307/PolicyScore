@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(req: NextRequest) {
     const ua = req.headers.get('user-agent') || '';
-    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
 
     if (isMobile && !req.nextUrl.pathname.startsWith('/mobile-blocked')) {
         const url = req.nextUrl.clone();
@@ -15,5 +15,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: '/:path*',
+    matcher: ['/((?!mobile-blocked).*)'],
 };
