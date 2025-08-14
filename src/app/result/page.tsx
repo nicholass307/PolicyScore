@@ -1,7 +1,10 @@
 "use client";
+
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import SlotPercentage from "@/app/components/SlotPercentage";
 import ResetButton from "@/app/components/ResetButton";
+
 const KPI_LABELS: Record<string, string> = {
     participation: "재참여 의향",
     satisfaction: "만족도",
@@ -10,6 +13,7 @@ const KPI_LABELS: Record<string, string> = {
 };
 
 export default function ResultPage() {
+    const router = useRouter();
     const [totalScore, setTotalScore] = useState(0);
     const [kpis, setKpis] = useState<
         { name: string; score?: number; reason: string; recommendation: string }[]
@@ -19,38 +23,45 @@ export default function ResultPage() {
     useEffect(() => {
         const rawResult = localStorage.getItem("policy_result");
 
-        if (rawResult) {
-            try {
-                const parsed = JSON.parse(rawResult);
+        console.log(rawResult);
 
-                setTotalScore(Math.round(parsed.final_score || 0));
-
-                const kpiItems: {
-                    name: string;
-                    score?: number;
-                    reason: string;
-                    recommendation: string;
-                }[] = [];
-
-                const feedback = parsed.feedback || {};
-                const scores = parsed.predicted_kpis_by_GPT || {};
-
-                for (const key of Object.keys(KPI_LABELS)) {
-                    const label = KPI_LABELS[key] || key;
-                    const reason = feedback[key]?.reason || "";
-                    const recommendation = feedback[key]?.recommendation || "";
-                    const score = scores[key];
-
-                    kpiItems.push({ name: label, reason, recommendation, score });
-                }
-
-                setKpis(kpiItems);
-                setOverallOpinion(parsed.overall_review || "");
-            } catch (error) {
-                console.error("결과 JSON 파싱 오류:", error);
-            }
+        if (!rawResult) {
+            alert("공약 평가를 먼저 진행해주세요.");
+            router.replace("/");
+            return;
         }
-    }, []);
+
+        try {
+            const parsed = JSON.parse(rawResult);
+
+            setTotalScore(Math.round(parsed.final_score || 0));
+
+            const kpiItems: {
+                name: string;
+                score?: number;
+                reason: string;
+                recommendation: string;
+            }[] = [];
+
+            const feedback = parsed.feedback || {};
+            const scores = parsed.predicted_kpis_by_GPT || {};
+
+            for (const key of Object.keys(KPI_LABELS)) {
+                const label = KPI_LABELS[key] || key;
+                const reason = feedback[key]?.reason || "";
+                const recommendation = feedback[key]?.recommendation || "";
+                const score = scores[key];
+
+                kpiItems.push({ name: label, reason, recommendation, score });
+            }
+
+            setKpis(kpiItems);
+            setOverallOpinion(parsed.overall_review || "");
+        } catch (error) {
+            console.error("결과 JSON 파싱 오류:", error);
+            router.replace("/");
+        }
+    }, [router]);
 
     return (
         <div className="flex min-h-screen flex-col bg-slate-50">
@@ -120,7 +131,7 @@ export default function ResultPage() {
                     )}
                 </div>
                 <div className="flex justify-center mt-6">
-                    <ResetButton/>
+                    <ResetButton />
                 </div>
             </main>
         </div>

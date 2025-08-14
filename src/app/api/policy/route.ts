@@ -19,6 +19,21 @@ export async function POST(req: Request) {
         budgetScore,
     } = body;
 
+    if (
+        !pledgeName?.trim() ||
+        !pledgeDescription?.trim() ||
+        approvalRate === undefined ||
+        planningIntegrity === undefined ||
+        gradeEquity === undefined ||
+        resourceReadiness === undefined ||
+        budgetScore === undefined
+    ) {
+        return NextResponse.json(
+            { error: "필수 입력값이 누락되었습니다." },
+            { status: 400 }
+        );
+    }
+
     console.log("📥 API 요청 값:", {
         pledgeName,
         pledgeDescription,
