@@ -1,6 +1,4 @@
-/*
-*
-* import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(req: NextRequest) {
@@ -25,11 +23,9 @@ export const config = {
     matcher: ['/((?!mobile-blocked).*)'],
 };
 
-*
-* */
 
 
-
+/**
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
@@ -84,3 +80,4 @@ export function middleware(req: NextRequest) {
 export const config = {
     matcher: ['/((?!api).*)'],
 };
+**/
